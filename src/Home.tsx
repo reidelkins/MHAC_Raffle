@@ -37,7 +37,7 @@ const WalletAmount = styled.div`
   min-width: 48px;
   min-height: auto;
   border-radius: 22px;
-  background-color: var(--main-text-color);
+  background-color: var(--secondary-attribute-color);
   box-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
   box-sizing: border-box;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -89,8 +89,9 @@ const Card = styled(Paper)`
 `;
 
 const MintButtonContainer = styled.div`
+  font-color: white;
   button.MuiButton-contained:not(.MuiButton-containedPrimary).Mui-disabled {
-    color: #464646;
+    color: ##93d3fb;
   }
 
   button.MuiButton-contained:not(.MuiButton-containedPrimary):hover,
@@ -102,13 +103,13 @@ const MintButtonContainer = styled.div`
 
   @-webkit-keyframes pulse {
     0% {
-      box-shadow: 0 0 0 0 #ef8f6e;
+      box-shadow: 0 0 0 0 #93d3fb;
     }
   }
 
   @keyframes pulse {
     0% {
-      box-shadow: 0 0 0 0 #ef8f6e;
+      box-shadow: 0 0 0 0 #93d3fb;
     }
   }
 `;
@@ -154,7 +155,7 @@ const Menu = styled.ul`
 `;
 
 const SolExplorerLink = styled.a`
-  color: var(--title-text-color);
+  color: var(--main-text-color);
   border-bottom: 1px solid var(--title-text-color);
   font-weight: bold;
   list-style-image: none;
@@ -195,6 +196,13 @@ const DesContainer = styled.div`
   gap: 20px;
 `;
 
+const RulesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 20px;
+`;
+
 const Price = styled(Chip)`
   position: absolute;
   margin: 5px;
@@ -215,10 +223,10 @@ const BorderLinearProgress = styled(LinearProgress)`
   border-radius: 30px;
   border: 2px solid white;
   box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
-  background-color:var(--main-text-color) !important;
+  background-color:var(--card-background-color) !important;
   
   > div.MuiLinearProgress-barColorPrimary{
-    background-color:var(--title-text-color) !important;
+    background-color:var(--secondary-attribute-color) !important;
   }
 
   > div.MuiLinearProgress-bar1Determinate {
@@ -243,7 +251,7 @@ const ShimmerTitle = styled.h1`
 `;
 
 const GoldTitle = styled.h2`
-  color: var(--title-text-color);
+  color: var(--list-title-text-color);
 `;
 
 const LogoAligner = styled.div`
@@ -256,11 +264,28 @@ const LogoAligner = styled.div`
   }
 `;
 
+const RulesTitle = styled.h2`
+  color: var(--list-title-text-color);
+  text-align: center;
+`;
+
+const MenuItem = styled.li`
+  font-size: 1.5em;
+  color: var(--title-text-color);
+  text-align: center;
+  
+`;
+
+
 export interface HomeProps {
     candyMachineId: anchor.web3.PublicKey;
     connection: anchor.web3.Connection;
     txTimeout: number;
     rpcHost: string;
+}
+
+export const getCandyMachine = () => {
+
 }
 
 const Home = (props: HomeProps) => {
@@ -278,6 +303,8 @@ const Home = (props: HomeProps) => {
     const [whitelistPrice, setWhitelistPrice] = useState(0);
     const [whitelistEnabled, setWhitelistEnabled] = useState(false);
     const [whitelistTokenBalance, setWhitelistTokenBalance] = useState(0);
+    const [raffleTicket, setRaffleTicket] = useState<string>("Medallion Ticket");
+    const [raffleImage, setRaffleImage] = useState<string>("MedallionTicket.png");
 
     const [alertState, setAlertState] = useState<AlertState>({
         open: false,
@@ -463,6 +490,37 @@ const Home = (props: HomeProps) => {
         }
     };
 
+    async function goSilver(): void {
+        setRaffleTicket("Silver Ticket");
+        setRaffleImage("SilverTicket.png");
+        const cndy = await getCandyMachineState(
+            wallet as anchor.Wallet,
+            props.candyMachineId,
+            props.connection
+        );
+    }
+
+    async function goGold(): void {
+        setRaffleTicket("Gold Ticket");
+        setRaffleImage("GoldTicket.png");
+        const cndy = await getCandyMachineState(
+            wallet as anchor.Wallet,
+            props.candyMachineId,
+            props.connection
+        );
+    }
+
+    async function goMedallion(): void {
+        setRaffleTicket("Medallion Ticket");
+        setRaffleImage("MedallionTicket.png");
+        const cndy = await getCandyMachineState(
+            wallet as anchor.Wallet,
+            props.candyMachineId,
+            props.connection
+        );
+    }
+
+    
 
     useEffect(() => {
         (async () => {
@@ -483,41 +541,37 @@ const Home = (props: HomeProps) => {
         <main>
             <MainContainer>
                 <WalletContainer>
-                    <Logo><a href="http://localhost:3000/" target="_blank" rel="noopener noreferrer"><img alt=""
+                    <Logo><a href="https://www.milehighapeclub.com" target="_blank" rel="noopener noreferrer"><img alt=""
                                                                                                           src="logo.png"/></a></Logo>
                     <Menu>
-                        <li><a href="http://localhost:3000/" target="_blank" rel="noopener noreferrer">Menu 1</a>
-                        </li>
-                        <li><a href="http://localhost:3000/" target="_blank"
-                               rel="noopener noreferrer">Menu 2</a></li>
-                        <li><a href="http://localhost:3000/" target="_blank"
-                               rel="noopener noreferrer">Menu 3</a></li>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goSilver()}>Silver Plus Ticket</a></MenuItem>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goGold()}>Golden Ticket</a></MenuItem>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goMedallion()}>Medallion Ticket</a></MenuItem>
                     </Menu>
                     <Wallet>
                         {wallet ?
-                            <WalletAmount>{(balance || 0).toLocaleString()} SOL<ConnectButton/></WalletAmount> :
+                            <WalletAmount>{(balance || 0).toLocaleString()} MILES<ConnectButton/></WalletAmount> :
                             <ConnectButton>Connect Wallet</ConnectButton>}
                     </Wallet>
                 </WalletContainer>
-                <ShimmerTitle>MINT IS LIVE !</ShimmerTitle>
+                <ShimmerTitle>MHAC Raffle Sweepstakes !</ShimmerTitle>
                 <br/>
 
 
                 <MintContainer>
                     <DesContainer>
                         <NFT elevation={3}>
-                            <h2>My NFT</h2>
+                            <h2>Buy A {raffleTicket}</h2>
                             <br/>
                             <div><Price
                                 label={isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " " + priceLabel) : (price + " " + priceLabel)}/><Image
-                                src="cool-cats.gif"
-                                alt="NFT To Mint"/></div>
+                                src={raffleImage}
+                                alt="Ticket to Buy"/></div>
                             <br/>
                             {wallet && isActive && whitelistEnabled && (whitelistTokenBalance > 0) &&
                               <h3>You have {whitelistTokenBalance} whitelist mint(s) remaining.</h3>}
                             {wallet && isActive &&
-                                /* <p>Total Minted : {100 - (itemsRemaining * 100 / itemsAvailable)}%</p>}*/
-                              <h3>TOTAL MINTED : {itemsRedeemed} / {itemsAvailable}</h3>}
+                              <h3 style={{color: "black"}}>TOTAL MINTED : {itemsRedeemed} / {itemsAvailable}</h3>}
                             {wallet && isActive && <BorderLinearProgress variant="determinate"
                                                                          value={100 - (itemsRemaining * 100 / itemsAvailable)}/>}
                             <br/>
@@ -578,33 +632,31 @@ const Home = (props: HomeProps) => {
                                 Explorer</SolExplorerLink>}
                         </NFT>
                     </DesContainer>
+                    
                     <DesContainer>
                         <Des elevation={2}>
-                            <LogoAligner><img src="logo.png" alt=""></img><GoldTitle>TITLE 1</GoldTitle></LogoAligner>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
+                            <LogoAligner><img src="" alt=""></img><RulesTitle>Raffle Sweepstakes</RulesTitle></LogoAligner>
+                            <p>Raffle tickets can only be purchased using $MILES which are earned by staking your MHACs.</p>
+                            <p>All winners will be chosen during live twitch streams at different times.</p>
+                            <p>Buy a ticket, enjoy the ride, and may the odds be ever in your favor!</p>
                         </Des>
-                        <Des elevation={2}>
-                            <LogoAligner><img src="logo.png" alt=""></img><GoldTitle>TITLE 2</GoldTitle></LogoAligner>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
+                        <Des elevation={2} onClick={() => goSilver()}>
+                            <LogoAligner><img src="SilverTicket.png" alt=""></img><GoldTitle>Economy Ticket Raffle</GoldTitle></LogoAligner>
+                            <p>There will be up to 5000 economy tickets sold with 10 different winners. Each economy ticket will cost 50 $Miles.</p>
+                            <p>The winners of the economy ticket will win one free MHAC hat.</p>
+                            
                         </Des>
-                        <Des elevation={2}>
-                            <LogoAligner><img src="logo.png" alt=""></img><GoldTitle>TITLE 3</GoldTitle></LogoAligner>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt.</p>
+                        <Des elevation={2} onClick={() => goGold()}>
+                            <LogoAligner><img src="GoldTicket.png" alt=""></img><GoldTitle>Gold Ticket Raffle</GoldTitle></LogoAligner>
+                            <p>There will be up to 2000 golden tickets sold with 3 different winners. Each ticket will cost 400 $MILES.</p>
+                            <p>The winners of this raffle will recieve a long sleeve MHAC branded t-shirt as well as a free MHAC NFT.</p>
+                            
+                        </Des>
+                        <Des elevation={2} onClick={() => goMedallion()}>
+                            <LogoAligner><img src="MedallionTicket.png" alt=""></img><GoldTitle>Medallion Ticket Raffle</GoldTitle></LogoAligner>
+                            <p>Up to 250 medallion tickets will be sold with only 1 winner. Each medallion ticket will cost 2500 $MILES.</p>
+                            <p>The winner of the medallion ticket raffle will win a paid vacation for two planned and booked for them for up to $2500.</p>
+                            
                         </Des>
                     </DesContainer>
                 </MintContainer>
