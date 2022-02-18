@@ -37,7 +37,7 @@ export const MintButton = ({
             // when user approves wallet verification txn
             setIsVerifying(true);
         } else if (gatewayStatus === GatewayStatus.ACTIVE && clicked) {
-            console.log('Verified human, now minting...');
+            console.log('Verified human, now buying...');
             onMint();
             setClicked(false);
         }
@@ -57,7 +57,7 @@ export const MintButton = ({
                     setClicked(true);
                     await requestGatewayToken();
                 } else {
-                    console.log('Minting...');
+                    console.log('Buying...');
                     await onMint();
                 }
             }}
@@ -72,7 +72,7 @@ export const MintButton = ({
                     isMinting ? (
                         <CircularProgress/>
                     ) : (
-                        "MINT"
+                        "BUY"
                     )
             ) : (candyMachine?.state.goLiveDate ? (
                 "SOON"
