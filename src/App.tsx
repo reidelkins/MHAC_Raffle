@@ -25,22 +25,9 @@ import {
 
 import "./App.css";
 import Home from "./Home";
-import getCandyMachine from "./Home";
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-
-const candyMachineId_Silver = new anchor.web3.PublicKey(
-  process.env.REACT_APP_CANDY_MACHINE_ID!
-);
-
-const candyMachineId_Gold = new anchor.web3.PublicKey(
-  process.env.REACT_APP_CANDY_MACHINE_ID2!
-);
-
-const candyMachineId_Medallion = new anchor.web3.PublicKey(
-  process.env.REACT_APP_CANDY_MACHINE_ID3!
-);
 
 const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 
@@ -96,15 +83,12 @@ const App = () => {
         []
     );
 
-    const candyMachineId = getCandyMachine();
-
   return (
       <ThemeProvider theme={theme}>
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect={true}>
             <WalletModalProvider>
               <Home
-                candyMachineId={candyMachineId}
                 connection={connection}
                 txTimeout={txTimeout}
                 rpcHost={rpcHost}
