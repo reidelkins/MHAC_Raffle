@@ -1,12 +1,12 @@
 /* Customize your main colors in :root variables */
 :root {
-  --main-background-color: #93d3fb;
-  --card-background-color: #e7f5fe;
+  --main-background-color: #79B4FF;
+  --card-background-color: #EFEFEF;
   --card-background-lighter-color: #7A7F92;
   --main-text-color:black;
   --title-text-color:white;
   --list-title-text-color:black;
-  --secondary-attribute-color:#93d3fb;
+  --secondary-attribute-color:#79B4FF;
 }
 
 body{
