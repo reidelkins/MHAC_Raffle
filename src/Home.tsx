@@ -196,25 +196,18 @@ const DesContainer = styled.div`
   gap: 20px;
 `;
 
-const RulesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  gap: 20px;
-`;
-
 const Price = styled(Chip)`
-  position: absolute;
+  position: relative;
   margin: 5px;
   font-weight: bold;
-  font-size: 1em !important;
+  font-size: 1.5em !important;
 `;
 
 const Image = styled.img`
   height: 400px;
   width: auto;
   border-radius: 7px;
-  box-shadow: 5px 5px 40px 5px rgba(0,0,0,0.5);
+  
 `;
 
 const BorderLinearProgress = styled(LinearProgress)`
@@ -276,17 +269,20 @@ const MenuItem = styled.li`
   
 `;
 
+const MenuText = styled.p`
+  font-size: 1.25em;
+  color: var(--main-text-color);
+  
+`;
+
 
 export interface HomeProps {
-    candyMachineId: anchor.web3.PublicKey;
     connection: anchor.web3.Connection;
     txTimeout: number;
     rpcHost: string;
 }
 
-export const getCandyMachine = () => {
 
-}
 
 const Home = (props: HomeProps) => {
     const [balance, setBalance] = useState<number>();
@@ -303,8 +299,10 @@ const Home = (props: HomeProps) => {
     const [whitelistPrice, setWhitelistPrice] = useState(0);
     const [whitelistEnabled, setWhitelistEnabled] = useState(false);
     const [whitelistTokenBalance, setWhitelistTokenBalance] = useState(0);
-    const [raffleTicket, setRaffleTicket] = useState<string>("Medallion Ticket");
-    const [raffleImage, setRaffleImage] = useState<string>("MedallionTicket.png");
+    const [raffleTicket, setRaffleTicket] = useState<string>("Best Buds Ticket");
+    const [raffleImage, setRaffleImage] = useState<string>("BEST_BUDS.png");
+    const [cmId, setcmID] = useState<string>(process.env.REACT_APP_CANDY_MACHINE_ID_SILVER!);
+    
 
     const [alertState, setAlertState] = useState<AlertState>({
         open: false,
@@ -323,7 +321,7 @@ const Home = (props: HomeProps) => {
 
             const cndy = await getCandyMachineState(
                 wallet as anchor.Wallet,
-                props.candyMachineId,
+                new anchor.web3.PublicKey(cmId),
                 props.connection
             );
 
@@ -342,7 +340,7 @@ const Home = (props: HomeProps) => {
                 setPayWithSplToken(true);
                 // Customize your SPL-TOKEN Label HERE
                 // TODO: get spl-token metadata name
-                setPriceLabel(splTokenName);
+                setPriceLabel("$MILEZ");
                 setPrice(cndy.state.price.toNumber() / divider);
                 setWhitelistPrice(cndy.state.price.toNumber() / divider);
             }else {
@@ -446,7 +444,7 @@ const Home = (props: HomeProps) => {
                 if (!status?.err) {
                     setAlertState({
                         open: true,
-                        message: 'Congratulations! Mint succeeded!',
+                        message: 'Congratulations! You successfully purchased a raffle ticket!',
                         severity: 'success',
                     });
 
@@ -455,14 +453,14 @@ const Home = (props: HomeProps) => {
                 } else {
                     setAlertState({
                         open: true,
-                        message: 'Mint failed! Please try again!',
+                        message: 'Purchase failed! Please try again!',
                         severity: 'error',
                     });
                 }
             }
         } catch (error: any) {
             // TODO: blech:
-            let message = error.msg || 'Minting failed! Please try again!';
+            let message = error.msg || 'Purchasing failed! Please try again!';
             if (!error.msg) {
                 if (!error.message) {
                     message = 'Transaction Timeout! Please try again.';
@@ -490,41 +488,32 @@ const Home = (props: HomeProps) => {
         }
     };
 
-    async function goSilver(): void {
-        setRaffleTicket("Silver Ticket");
-        setRaffleImage("SilverTicket.png");
-        const cndy = await getCandyMachineState(
-            wallet as anchor.Wallet,
-            props.candyMachineId,
-            props.connection
-        );
+    function GoOne() {
+        setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_SILVER!);
+        setRaffleTicket("BEST BUDS Ticket");
+        setRaffleImage("BEST_BUDS.png");
+        
     }
 
-    async function goGold(): void {
-        setRaffleTicket("Gold Ticket");
-        setRaffleImage("GoldTicket.png");
-        const cndy = await getCandyMachineState(
-            wallet as anchor.Wallet,
-            props.candyMachineId,
-            props.connection
-        );
+    function GoTwo() {
+        setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_GOLD!);
+        setRaffleTicket("MHAC Ticket");
+        setRaffleImage("MHAC.png");
+        
     }
 
-    async function goMedallion(): void {
-        setRaffleTicket("Medallion Ticket");
-        setRaffleImage("MedallionTicket.png");
-        const cndy = await getCandyMachineState(
-            wallet as anchor.Wallet,
-            props.candyMachineId,
-            props.connection
-        );
+    function GoThree() {
+        setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_MEDALLION!);
+        setRaffleTicket("Solana Ticket");
+        setRaffleImage("SOLANA.png");
+          
     }
 
     
-
     useEffect(() => {
         (async () => {
             if (wallet) {
+                //TODO
                 const balance = await props.connection.getBalance(wallet.publicKey);
                 setBalance(balance / LAMPORTS_PER_SOL);
             }
@@ -533,7 +522,7 @@ const Home = (props: HomeProps) => {
 
     useEffect(refreshCandyMachineState, [
         wallet,
-        props.candyMachineId,
+        cmId,
         props.connection,
     ]);
 
@@ -544,13 +533,13 @@ const Home = (props: HomeProps) => {
                     <Logo><a href="https://www.milehighapeclub.com" target="_blank" rel="noopener noreferrer"><img alt=""
                                                                                                           src="logo.png"/></a></Logo>
                     <Menu>
-                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goSilver()}>Silver Plus Ticket</a></MenuItem>
-                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goGold()}>Golden Ticket</a></MenuItem>
-                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => goMedallion()}>Medallion Ticket</a></MenuItem>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => GoOne()}>Best Buds Ticket</a></MenuItem>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => GoTwo()}>MHAC Ticket</a></MenuItem>
+                        <MenuItem><a style={{cursor: "pointer"}} onClick={() => GoThree()}>SOL Ticket</a></MenuItem>
                     </Menu>
                     <Wallet>
                         {wallet ?
-                            <WalletAmount>{(balance || 0).toLocaleString()} MILES<ConnectButton/></WalletAmount> :
+                            <WalletAmount>$MILEZ<ConnectButton/></WalletAmount> :
                             <ConnectButton>Connect Wallet</ConnectButton>}
                     </Wallet>
                 </WalletContainer>
@@ -561,17 +550,17 @@ const Home = (props: HomeProps) => {
                 <MintContainer>
                     <DesContainer>
                         <NFT elevation={3}>
-                            <h2>Buy A {raffleTicket}</h2>
+                            <h2 style={{fontSize: "2.5em"}}>Buy A {raffleTicket}</h2>
                             <br/>
-                            <div><Price
-                                label={isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " " + priceLabel) : (price + " " + priceLabel)}/><Image
+                            <Price label={isActive && whitelistEnabled && (whitelistTokenBalance > 0) ? (whitelistPrice + " " + priceLabel) : (price + " " + priceLabel)}/>
+                            <div><Image
                                 src={raffleImage}
                                 alt="Ticket to Buy"/></div>
                             <br/>
                             {wallet && isActive && whitelistEnabled && (whitelistTokenBalance > 0) &&
                               <h3>You have {whitelistTokenBalance} whitelist mint(s) remaining.</h3>}
                             {wallet && isActive &&
-                              <h3 style={{color: "black"}}>TOTAL MINTED : {itemsRedeemed} / {itemsAvailable}</h3>}
+                              <h3 style={{color: "black"}}>TOTAL BOUGHT : {itemsRedeemed} / {itemsAvailable}</h3>}
                             {wallet && isActive && <BorderLinearProgress variant="determinate"
                                                                          value={100 - (itemsRemaining * 100 / itemsAvailable)}/>}
                             <br/>
@@ -636,27 +625,28 @@ const Home = (props: HomeProps) => {
                     <DesContainer>
                         <Des elevation={2}>
                             <LogoAligner><img src="" alt=""></img><RulesTitle>Raffle Sweepstakes</RulesTitle></LogoAligner>
-                            <p>Raffle tickets can only be purchased using $MILES which are earned by staking your MHACs.</p>
-                            <p>All winners will be chosen during live twitch streams at different times.</p>
-                            <p>Buy a ticket, enjoy the ride, and may the odds be ever in your favor!</p>
+                            <MenuText>Raffle tickets can only be purchased using $MILEZ which are earned by staking your MHACs.</MenuText>
+                            <MenuText>All winners will be chosen during a live stream hosted by the MHAC team on February 21, .</MenuText>
+                            <MenuText>Buy a ticket, enjoy the ride, and may the odds be ever in your favor!</MenuText>
                         </Des>
-                        <Des elevation={2} onClick={() => goSilver()}>
-                            <LogoAligner><img src="SilverTicket.png" alt=""></img><GoldTitle>Economy Ticket Raffle</GoldTitle></LogoAligner>
-                            <p>There will be up to 5000 economy tickets sold with 10 different winners. Each economy ticket will cost 50 $Miles.</p>
-                            <p>The winners of the economy ticket will win one free MHAC hat.</p>
+                        <Des elevation={2} onClick={() => GoOne()}>
+                            <LogoAligner><img src="BEST_BUDS.png" alt=""></img><GoldTitle>Best Buds Raffle</GoldTitle></LogoAligner>
+                            <MenuText>There will be up to 250 Best Buds raffle tickets sold with 5 different winners. Each Best Buds ticket will cost 100 $MILEZ.</MenuText>
+                            <MenuText>The winners of the Best Buds Raffle will win one Best Buds NFT.</MenuText>
+                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
                             
                         </Des>
-                        <Des elevation={2} onClick={() => goGold()}>
-                            <LogoAligner><img src="GoldTicket.png" alt=""></img><GoldTitle>Gold Ticket Raffle</GoldTitle></LogoAligner>
-                            <p>There will be up to 2000 golden tickets sold with 3 different winners. Each ticket will cost 400 $MILES.</p>
-                            <p>The winners of this raffle will recieve a long sleeve MHAC branded t-shirt as well as a free MHAC NFT.</p>
-                            
+                        <Des elevation={2} onClick={() => GoTwo()}>
+                            <LogoAligner><img src="MHAC.png" alt=""></img><GoldTitle>MHAC Raffle</GoldTitle></LogoAligner>
+                            <MenuText>There will be up to 500 MHAC raffle tickets sold with 10 different winners. Each MHAC ticket will cost 50 $MILEZ.</MenuText>
+                            <MenuText>The winners of this raffle will recieve an additional MHAC NFT to add to their already awesome collection.</MenuText>
+                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
                         </Des>
-                        <Des elevation={2} onClick={() => goMedallion()}>
-                            <LogoAligner><img src="MedallionTicket.png" alt=""></img><GoldTitle>Medallion Ticket Raffle</GoldTitle></LogoAligner>
-                            <p>Up to 250 medallion tickets will be sold with only 1 winner. Each medallion ticket will cost 2500 $MILES.</p>
-                            <p>The winner of the medallion ticket raffle will win a paid vacation for two planned and booked for them for up to $2500.</p>
-                            
+                        <Des elevation={2} onClick={() => GoThree()}>
+                            <LogoAligner><img src="SOLANA.png" alt=""></img><GoldTitle>Solana Raffle</GoldTitle></LogoAligner>
+                            <MenuText>There will be up to 1000 Solana Raffle tickets sold with 15 winners. Each Solana ticket will cost 10 $MILEZ.</MenuText>
+                            <MenuText>The winners of the Solana Raffle will win 0.5 SOL each, airdropped to the wallet of their choice.</MenuText>
+                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
                         </Des>
                     </DesContainer>
                 </MintContainer>
