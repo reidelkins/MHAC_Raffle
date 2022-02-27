@@ -303,6 +303,7 @@ const Home = (props: HomeProps) => {
     const [raffleImage, setRaffleImage] = useState<string>("BEST_BUDS.png");
     const [cmId, setcmID] = useState<string>(process.env.REACT_APP_CANDY_MACHINE_ID_SILVER!);
     
+    
 
     const [alertState, setAlertState] = useState<AlertState>({
         open: false,
