@@ -18,6 +18,8 @@ import {
     getLedgerWallet,
     getSafePalWallet,
 } from "@solana/wallet-adapter-wallets";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 import {
     WalletModalProvider
@@ -25,6 +27,7 @@ import {
 
 import "./App.css";
 import Home from "./Home";
+import Store from './Store';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -88,15 +91,26 @@ const App = () => {
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets} autoConnect={true}>
             <WalletModalProvider>
-              <Home
-                connection={connection}
-                txTimeout={txTimeout}
-                rpcHost={rpcHost}
-              />
+              <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home 
+                            connection={connection}
+                            txTimeout={txTimeout}
+                            rpcHost={rpcHost}/>} />
+                    <Route path="/store" element={<Store 
+                            connection={connection}
+                            txTimeout={txTimeout}
+                            rpcHost={rpcHost}
+                        />} />
+                    
+                    
+                </Routes>
+            </BrowserRouter>
             </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
       </ThemeProvider>
+      
   );
 };
 

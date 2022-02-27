@@ -276,15 +276,14 @@ const MenuText = styled.p`
 `;
 
 
-export interface HomeProps {
+export interface StoreProps {
     connection: anchor.web3.Connection;
     txTimeout: number;
     rpcHost: string;
 }
 
 
-
-const Home = (props: HomeProps) => {
+const Store = (props: StoreProps) => {
     const [balance, setBalance] = useState<number>();
     const [isMinting, setIsMinting] = useState(false); // true when user got to press MINT
     const [isActive, setIsActive] = useState(false); // true when countdown completes or whitelisted
@@ -623,29 +622,17 @@ const Home = (props: HomeProps) => {
                     
                     <DesContainer>
                         <Des elevation={2}>
-                            <LogoAligner><img src="" alt=""></img><RulesTitle>Raffle Sweepstakes</RulesTitle></LogoAligner>
-                            <MenuText>Raffle tickets can only be purchased using $MILEZ which are earned by staking your MHACs.</MenuText>
-                            <MenuText>All winners will be chosen during a live stream hosted by the MHAC team on February 21, .</MenuText>
-                            <MenuText>Buy a ticket, enjoy the ride, and may the odds be ever in your favor!</MenuText>
+                            
                         </Des>
                         <Des elevation={2} onClick={() => GoOne()}>
-                            <LogoAligner><img src="BEST_BUDS.png" alt=""></img><GoldTitle>Best Buds Raffle</GoldTitle></LogoAligner>
-                            <MenuText>There will be up to 250 Best Buds raffle tickets sold with 5 different winners. Each Best Buds ticket will cost 100 $MILEZ.</MenuText>
-                            <MenuText>The winners of the Best Buds Raffle will win one Best Buds NFT.</MenuText>
-                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
+                            
                             
                         </Des>
                         <Des elevation={2} onClick={() => GoTwo()}>
-                            <LogoAligner><img src="MHAC.png" alt=""></img><GoldTitle>MHAC Raffle</GoldTitle></LogoAligner>
-                            <MenuText>There will be up to 500 MHAC raffle tickets sold with 10 different winners. Each MHAC ticket will cost 50 $MILEZ.</MenuText>
-                            <MenuText>The winners of this raffle will recieve an additional MHAC NFT to add to their already awesome collection.</MenuText>
-                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
+                            
                         </Des>
                         <Des elevation={2} onClick={() => GoThree()}>
-                            <LogoAligner><img src="SOLANA.png" alt=""></img><GoldTitle>Solana Raffle</GoldTitle></LogoAligner>
-                            <MenuText>There will be up to 1000 Solana Raffle tickets sold with 15 winners. Each Solana ticket will cost 10 $MILEZ.</MenuText>
-                            <MenuText>The winners of the Solana Raffle will win 0.5 SOL each, airdropped to the wallet of their choice.</MenuText>
-                            <MenuText>This raffle will close on February 21, 2022 at 10:00pm GMT.</MenuText>
+                            
                         </Des>
                     </DesContainer>
                 </MintContainer>
@@ -666,4 +653,4 @@ const Home = (props: HomeProps) => {
     );
 };
 
-export default Home;
+export default Store;
