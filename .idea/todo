@@ -1,0 +1,35 @@
+turn parts of raffle page into components
+raffle images for each section as array and then a for each map
+
+Steps:
+1. Create folder with metaplex, raffle site, and NFT folder
+a. add copyRaffle.sh into this folder
+b. add raffle.json into this folder
+c. create subfolder Assets
+
+2. Prepare Asset Folder
+a. Create/ask for image
+b. put image into its own folder under NFT/Assets/"NFT NAME" and name the image 0.png
+c. cd into the NFT folder and run ./copyRaffle.sh "NFT NAME"
+
+3. Create candy machine
+a. From parent directory of NFT, run
+ts-node ./metaplex/js/packages/cli/src/candy-machine-v2-cli.ts upload -e mainnet-beta -k ~/.config/solana/raffles.json -cp ./NFTs/raffle.json -c "NFT NAME" ./NFT/Assets/"NFT NAME"
+b. Make sure you run this until you get a successful = true
+c. Verify the upload, if you get "Not all NFTs checked out", run upload command again
+
+
+4. Update the raffle site
+a. add the new CM ID to the .env folder
+b. Add the raffle ticket image to the public/Raffles folder
+c. Update/add the Go"NFT Name"Raffle() method
+    - change the function name, CM ID, raffle ticket image, description
+d. Update navbar to use this function now
+e. Edit the Current/Upcoming/Past Raffle sections so they are correct
+
+5. Test
+a. run yarn install && yarn start 
+b. go to the website and look to see if the changes you made are showing up and working properly
+c. exit out
+d. run yarn build
+e. send me the build folder
