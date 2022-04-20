@@ -23,6 +23,8 @@ const cluster = process.env.REACT_APP_SOLANA_NETWORK!.toString();
 const decimals = process.env.REACT_APP_SPL_TOKEN_TO_MINT_DECIMALS ? +process.env.REACT_APP_SPL_TOKEN_TO_MINT_DECIMALS!.toString() : 9;
 //const splTokenName = process.env.REACT_APP_SPL_TOKEN_TO_MINT_NAME ? process.env.REACT_APP_SPL_TOKEN_TO_MINT_NAME.toString() : "TOKEN";
 
+
+
 const WalletContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -117,7 +119,7 @@ const Logo = styled.div`
   flex: 0 0 auto;
 
   img {
-    height: 60px;
+    height: 120px;
   }
 `;
 const Menu = styled.ul`
@@ -126,7 +128,7 @@ const Menu = styled.ul`
   flex: 1 0 auto;
 
   li {
-    margin: 0 12px;
+    margin: 0 25px;
 
     a {
       color: var(--main-text-color);
@@ -235,7 +237,8 @@ const BorderLinearProgress = styled(LinearProgress)`
 `;
 
 const ShimmerTitle = styled.h1`
-  margin: 50px auto;
+  font-size: 3.5em;
+  margin: 15px auto;
   text-transform: uppercase;
   animation: glow 2s ease-in-out infinite alternate;
   color: var(--main-text-color);
@@ -265,7 +268,7 @@ const RulesTitle = styled.h2`
 `;
 
 const MenuItem = styled.li`
-  font-size: 1.5em;
+  font-size: 2em;
   color: var(--title-text-color);
   text-align: center;
   
@@ -318,7 +321,7 @@ const Home = (props: HomeProps) => {
   const [whitelistPrice, setWhitelistPrice] = useState(0);
   const [whitelistEnabled, setWhitelistEnabled] = useState(false);
   const [whitelistTokenBalance, setWhitelistTokenBalance] = useState(0);
-  const [raffleTicket, setRaffleTicket] = useState<string>("Buy Jet-A Syrum");
+  const [raffleTicket, setRaffleTicket] = useState<string>("Buy Jet-A Serum");
   const [raffleImage, setRaffleImage] = useState<string>("JetA.png");
   const [cmId, setcmID] = useState<string>(process.env.REACT_APP_CANDY_MACHINE_ID_SYRUM!);
   const [menuDesc, setMenuDesc] = useState<string>("After the mile high apes took over the plane,\n" +
@@ -326,8 +329,7 @@ const Home = (props: HomeProps) => {
     "like the new hybrid fuel caused a weird reaction with 3100 of\n" +
     "the apes on board, leading to some crazy mutations.");
   const [menuTitle, setMenuTitle] = useState<string>("Jet-A For Hijacked Apes");
-  const [raffle, setRaffle] = useState<string>("SYRUM");
-
+  const [raffle, setRaffle] = useState<string>("SERUM");
 
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
@@ -526,7 +528,7 @@ const Home = (props: HomeProps) => {
 
   }*/
 
-  function GoRobocockRaffle() {
+  /*function GoRobocockRaffle() {
     setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_ROBOCOCK_RAFFLE!);
     setRaffleTicket("Buy A Robocock Ticket");
     setRaffleImage("/Raffles/Robocock_Raffle.png");
@@ -535,6 +537,32 @@ const Home = (props: HomeProps) => {
       "All winners will be chosen during a live stream after all tickets have been sold.\n" +
       "Buy a ticket, enjoy the ride, and may the odds be ever in your favor!");
     setPrice(150);
+    setRaffle("TRUE");
+
+  }*/
+
+  function GoApe2Raffle() {
+    setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_APE2_RAFFLE!);
+    setRaffleTicket("Buy A MHAC Ape Ticket");
+    setRaffleImage("/Raffles/Ape2_Raffle.png");
+    setMenuTitle("Raffle Sweepstakes")
+    setMenuDesc("Raffle tickets can only be purchased using $MILEZ which are earned by staking your MHACs.\n" +
+      "All winners will be chosen during a live stream after all tickets have been sold.\n" +
+      "Buy a ticket, enjoy the ride, and may the odds be ever in your favor!");
+    setPrice(100);
+    setRaffle("TRUE");
+
+  }
+
+  function GoApe3Raffle() {
+    setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_APE3_RAFFLE!);
+    setRaffleTicket("Buy A MHAC Ape Ticket");
+    setRaffleImage("/Raffles/Ape3_Raffle.png");
+    setMenuTitle("Raffle Sweepstakes")
+    setMenuDesc("Raffle tickets can only be purchased using $MILEZ which are earned by staking your MHACs.\n" +
+      "All winners will be chosen during a live stream after all tickets have been sold.\n" +
+      "Buy a ticket, enjoy the ride, and may the odds be ever in your favor!");
+    setPrice(100);
     setRaffle("TRUE");
 
   }
@@ -555,7 +583,7 @@ const Home = (props: HomeProps) => {
 
   function GoSyrum() {
     setcmID(process.env.REACT_APP_CANDY_MACHINE_ID_SYRUM!);
-    setRaffleTicket("Buy A Jet-A Syrum");
+    setRaffleTicket("Buy A Jet-A Serum");
     setRaffleImage("JetA.png");
     setMenuTitle("Jet-A For Hijacked Apes")
     setMenuDesc("After the mile high apes took over the plane,\n" +
@@ -563,7 +591,7 @@ const Home = (props: HomeProps) => {
       "like the new hybrid fuel caused a weird reaction with 3100 of\n" +
       "the apes on board, leading to some crazy mutations.");
     setPrice(2500);
-    setRaffle("SYRUM");
+    setRaffle("SERUM");
   }
 
 
@@ -608,20 +636,19 @@ const Home = (props: HomeProps) => {
         <WalletContainer>
           <Logo><a href="https://www.milehighapeclub.com" target="_blank" rel="noopener noreferrer"><img alt=""
             src="logo.png" /></a></Logo>
-          <Menu>
-            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoSyrum()}>Jet-A Syrum</a></MenuItem>
-            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoRobocockRaffle()}>Raffles</a></MenuItem>
-            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoMilezCoupon()}>MILEZ Coupons</a></MenuItem>
-            <MenuItem>Merch (Coming Soon)</MenuItem>
+          <ShimmerTitle>Mile High Ape Club $MILEZ Store !</ShimmerTitle>
 
-          </Menu>
           <Wallet>
             {wallet ?
               <WalletAmount>$MILEZ<ConnectButton /></WalletAmount> :
               <ConnectButton>Connect Wallet</ConnectButton>}
           </Wallet>
+          <Menu>
+            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoSyrum()}>Jet-A Syrum</a></MenuItem>
+            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoApe3Raffle()}>Raffles</a></MenuItem>
+            <MenuItem><a style={{ cursor: "pointer" }} onClick={() => GoMilezCoupon()}>MILEZ Coupons</a></MenuItem>
+          </Menu>
         </WalletContainer>
-        <ShimmerTitle>Mile High Ape Club $MILEZ Store !</ShimmerTitle>
         <br />
 
 
@@ -702,17 +729,20 @@ const Home = (props: HomeProps) => {
               <LogoAligner><RulesTitle>{menuTitle}</RulesTitle></LogoAligner>
               <MenuText>{menuDesc}</MenuText>
               <br></br>
-              {raffle === "SYRUM" &&
+              {raffle === "SERUM" &&
                 <div>
                   <LogoAligner><RulesTitle>Hijacked Sneak Peaks</RulesTitle></LogoAligner>
                   <OtherTixGallery>
-                    <InactiveTixImage src="/Hijacked/allEyeFur.png" width="600" height="400"></InactiveTixImage>
+                    <InactiveTixImage src="/Hijacked/AngryCrayon.png" width="600" height="400"></InactiveTixImage>
                   </OtherTixGallery>
                   <OtherTixGallery>
-                    <InactiveTixImage src="/Hijacked/eyeFur.png" width="600" height="400"></InactiveTixImage>
+                    <InactiveTixImage src="/Hijacked/DecomposedBanana.png" width="600" height="400"></InactiveTixImage>
                   </OtherTixGallery>
                   <OtherTixGallery>
-                    <InactiveTixImage src="/Hijacked/iceFur.png" width="600" height="400"></InactiveTixImage>
+                    <InactiveTixImage src="/Hijacked/EyeKnifeApe.png" width="600" height="400"></InactiveTixImage>
+                  </OtherTixGallery>
+                  <OtherTixGallery>
+                    <InactiveTixImage src="/Hijacked/GrassyBrain.png" width="600" height="400"></InactiveTixImage>
                   </OtherTixGallery>
                 </div>
               }
@@ -721,8 +751,10 @@ const Home = (props: HomeProps) => {
                   <LogoAligner><img src="" alt=""></img><RulesTitle>Active Raffles</RulesTitle></LogoAligner>
                 
                   <OtherTixGallery style={{ width: "32%" }}>
-                    <OtherTixImage src="/Raffles/Robocock_Raffle.png" width="600" height="400" onClick={() => GoRobocockRaffle()}></OtherTixImage>
-                    <h3 style={{color: "black", textAlign: "center"}}>FIVE WINNERS</h3>
+                    <OtherTixImage src="/Raffles/Ape2_Raffle.png" width="600" height="400" onClick={() => GoApe2Raffle()}></OtherTixImage>
+                    <h3 style={{color: "black", textAlign: "center"}}>ONE LUCKY WINNER (Click Here)</h3>
+                    <OtherTixImage src="/Raffles/Ape3_Raffle.png" width="600" height="400" onClick={() => GoApe3Raffle()}></OtherTixImage>
+                    <h3 style={{color: "black", textAlign: "center"}}>ONE LUCKY WINNER (Click Here)</h3>
                   </OtherTixGallery>
                   
                 </div>
@@ -754,12 +786,24 @@ const Home = (props: HomeProps) => {
               <Des elevation={2}>
                 <LogoAligner><img src="" alt=""></img><RulesTitle>Upcoming Raffles</RulesTitle></LogoAligner>
                 <OtherTixGallery>
-                  <InactiveTixImage src="/Raffles/Cyborg_Iguana.png" width="600" height="400"></InactiveTixImage>
+                  <InactiveTixImage src="/Raffles/Ape4_Raffle.png" width="600" height="400"></InactiveTixImage>
+                </OtherTixGallery>
+                <OtherTixGallery>
+                  <InactiveTixImage src="/Raffles/Ape5_Raffle.png" width="600" height="400"></InactiveTixImage>
+                </OtherTixGallery>
+                <OtherTixGallery>
+                  <InactiveTixImage src="/Raffles/Ape6_Raffle.png" width="600" height="400"></InactiveTixImage>
                 </OtherTixGallery>
               </Des>
 
               <Des elevation={2}>
                 <LogoAligner><img src="" alt=""></img><RulesTitle>Past Raffles</RulesTitle></LogoAligner>
+                <OtherTixGallery>
+                  <InactiveTixImage src="/Raffles/Ape_Raffle.png" width="600" height="400"></InactiveTixImage>
+                </OtherTixGallery>
+                <OtherTixGallery>
+                  <InactiveTixImage src="/Raffles/Robocock_Raffle.png" width="600" height="400"></InactiveTixImage>
+                </OtherTixGallery>
                 <OtherTixGallery>
                   <InactiveTixImage src="/Raffles/Cyborg_Iguana.png" width="600" height="400"></InactiveTixImage>
                 </OtherTixGallery>
