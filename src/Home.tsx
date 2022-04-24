@@ -634,7 +634,7 @@ const Home = (props: HomeProps) => {
     <main>
       <MainContainer>
         <WalletContainer>
-          <Logo><a href="https://www.milehighapeclub.com" target="_blank" rel="noopener noreferrer"><img alt=""
+          <Logo><a href="https://www.milehighapes.io" target="_blank" rel="noopener noreferrer"><img alt=""
             src="logo.png" /></a></Logo>
           <ShimmerTitle>Mile High Ape Club $MILEZ Store !</ShimmerTitle>
 
